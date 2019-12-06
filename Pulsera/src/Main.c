@@ -10,7 +10,7 @@
 //#define UART_PC        UART_USB
 //#define UART_BLUETOOTH UART_232
 MPU9250_address_t addr = MPU9250_ADDRESS_0;
-#define delay_t tickTime = 10
+#define delay_t tickTime =tickRead();
 
 void pulsera_enReposo(void * p){
 }
@@ -44,7 +44,7 @@ int main (void){
   boton_onPress(&b,pulsera_teMoviste);
   boton_onRelease(&b,pulsera_enReposo);
 
-  PulseraInit(&p,EN_MOVIMIENTO);//DETENIDO
+  PulseraInit(&p,DETENIDO);//DETENIDO
   renderizar(&pRender,&p,GPIO0); // @suppress("Symbol is not resolved")
 
   iniciarSensorMPU9250(&s,&p,mpuRead);
