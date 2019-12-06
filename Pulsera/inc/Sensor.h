@@ -27,7 +27,7 @@ typedef struct Sensor {
 	delay_t delay;
 	delay_t timeInit;
 	//delay_t timeLast;
-//	MPU9250_address_t addrs;
+	MPU9250_address_t addr;
     float ultimaLecturaX;
     float ultimaLecturaY;
     float ultimaLecturaZ;
@@ -38,7 +38,7 @@ typedef struct Sensor {
 } Sensor;
 
 
-void iniciarSensorMPU9250(Sensor * sensor ,void * model);
+void iniciarSensorMPU9250(Sensor * sensor, void * model,bool_t mpu);
 void sensor_onInitial(Sensor * sensor, evento onInitial);
 void sensor_onFinish(Sensor * sensor,evento onFinish);
 void actualizarSensor(Sensor * sensor);

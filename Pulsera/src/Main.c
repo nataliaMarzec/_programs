@@ -9,7 +9,7 @@
 #include "UartConnector.h"
 //#define UART_PC        UART_USB
 //#define UART_BLUETOOTH UART_232
-//MPU9250_address_t addr = MPU9250_ADDRESS_0;
+MPU9250_address_t addr = MPU9250_ADDRESS_0;
 #define delay_t tickTime = 10
 
 void pulsera_enReposo(void * p){
@@ -23,7 +23,7 @@ void pulsera_teMoviste(void *p){
 int main (void){
  printf("Inicializando IMU MPU9250...\r\n");
  boardConfig();
- gpioInit(GPIO0, GPIO_OUTPUT);
+ gpioInit(GPIO0, GPIO_OUTPUT); // @suppress("Symbol is not resolved")
 // uartConfig(UART_USB, 115200);
 
  Pulsera p;
@@ -34,21 +34,22 @@ int main (void){
  // UartConnector uart;
 // pulsera_setObservador(&p, (void *)&uart, observerP);
 
-// bool_t mpuRead;
-// mpuRead = mpu9250Read();
+// int8_t status;
+// status = mpu9250Init(addr);
+ bool_t mpuRead;
+ mpuRead = mpu9250Read();
 
   printf("INICIALIZANDO BOTONNNNNNNNNNNN");
-  inicializarDatosBotonDeArranque(&b,TEC2,(void*)&p);
+  inicializarDatosBotonDeArranque(&b,TEC2,(void*)&p); // @suppress("Symbol is not resolved")
   boton_onPress(&b,pulsera_teMoviste);
   boton_onRelease(&b,pulsera_enReposo);
 
   PulseraInit(&p,EN_MOVIMIENTO);//DETENIDO
-  renderizar(&pRender,&p,GPIO0);
+  renderizar(&pRender,&p,GPIO0); // @suppress("Symbol is not resolved")
 
-//  iniciarSensorMPU9250(&s,&p);
-
-//  sensor_onInitial(&s,pulsera_teMoviste);
-//  sensor_onFinish(&s,pulsera_enReposo);
+  iniciarSensorMPU9250(&s,&p,mpuRead);
+  sensor_onInitial(&s,pulsera_teMoviste);
+  sensor_onFinish(&s,pulsera_enReposo);
 
 // uartConnector_initBt(&uartConnector, &app, datoBluetoohRecibido);
 
@@ -57,7 +58,7 @@ int main (void){
 //	 mpu9250Read();
 
 	 actualizarBoton(&b);
-//	 actualizarSensor(&s);
+	 actualizarSensor(&s);
 	 pulseraUpdate(&p);
 	 update(&pRender);
 //	 printf( "Acelerometro:   (%f, %f, %f)   [m/s2]\r\n",
@@ -65,7 +66,7 @@ int main (void){
 //	                    mpu9250GetAccelY_mss(),
 //	                    mpu9250GetAccelZ_mss()
 //	                  );
-	 delay(10);
+	 delay(1);
 
 	 //uartConnector_update(&uartConnector);
  }

@@ -18,7 +18,7 @@ typedef enum {
 
 typedef void (*ManejoDeEventosDelSensor)(void *);
 
-typedef struct Sensor {
+typedef struct Sensor2 {
 	gpioMap_t gpio2;
 	ManejoDeEventosDelSensor onInitial2;
 	ManejoDeEventosDelSensor onFinish2;
@@ -26,14 +26,14 @@ typedef struct Sensor {
 	SensorEstado state2;
 	int8_t duracion2;
 
-} Sensor;
+} Sensor2;
 
 
 
-void iniciarSensorMPU9250(Sensor * sensor , gpioMap_t gpio, void * model);
-void sensor_onInitial(Sensor * sensor, ManejoDeEventosDelSensor handler);
-void sensor_onFinish(Sensor * sensor, ManejoDeEventosDelSensor handler);
-void actualizarSensor(Sensor * sensor);
+void iniciarSensorMPU9250(Sensor2 * sensor , gpioMap_t gpio, void * model);
+void sensor_onInitial(Sensor2 * sensor, ManejoDeEventosDelSensor handler);
+void sensor_onFinish(Sensor2 * sensor, ManejoDeEventosDelSensor handler);
+void actualizarSensor(Sensor2 * sensor);
 
 
 

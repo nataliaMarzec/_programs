@@ -12,15 +12,16 @@ void cambiarEstado(Sensor * sensor, SensorEstado estado);
 void iniciarContadorDelay(Sensor * sensor);
 
 //INICIALIZA AL ULTIMO CAMBIO MPUREAD() Y ARRANCA CON LECTURA ACTUAL,
-void iniciarSensorMPU9250(Sensor * sensor, void * model) {
+void iniciarSensorMPU9250(Sensor * sensor, void * model,bool_t mpu) {
 	mpu9250Read();
 //	MPU9250_address_t addr = MPU9250_ADDRESS_0;
-//	sensor->addrs = mpu9250Init(addr);
+	sensor->addr = mpu9250Init(addrs);
 	sensor->model = model;
 	sensor->onInitial = nullHandlerSensor;
 	sensor->onFinish = nullHandlerSensor;
 	sensor->state = Levantado_;
-	sensor->iniciar = mpu9250Read();
+//	sensor->iniciar = mpu9250Read();
+	sensor->iniciar = mpu;
 //	sensor->timeInit;
 //	sensor->timeLast = tickRead();
 	sensor->ultimaLecturaX = mpu9250GetAccelX_mss();
@@ -45,7 +46,7 @@ void cambiarEstado(Sensor * sensor, SensorEstado estado) {
 	sensor->state = estado;
 }
 void iniciarContadorDelay(Sensor * sensor) {
-	delayInit(&sensor->delay,100);
+	delayInit(&sensor->delay,10);
 }
 void iniciarTiempo(Sensor * s) {
 	Pulsera * pulsera = (Pulsera *) s->model;
@@ -55,9 +56,7 @@ void iniciarTiempo(Sensor * s) {
 
 void actualizarSensor(Sensor * sensor) {
 //	bool_t estadoInicial
-	int8_t status;
-	status = mpu9250Init( addrs );
-//	sensor->addrs;
+	sensor->addr;
 	mpu9250Read();
 //	tick_t tickActual = tickRead();
 //	tick_t tiempoPasado = tickActual - sensor->timeLast;
@@ -104,22 +103,21 @@ void actualizarSensor(Sensor * sensor) {
 				cambiarEstado(sensor,Levantado_);
 //				iniciarTiempo(sensor);
 				iniciarContadorDelay(sensor);
-				printf("Acelerometro:   (%f, %f, %f)   [m/s2]\r\n",
-						lecturaActualX, lecturaActualY,
-						lecturaActualZ);
-//				sensor->ultimaLecturaX = lecturaActualX;
-//				sensor->ultimaLecturaY = lecturaActualY;
-//				sensor->ultimaLecturaZ = lecturaActualZ;
-//				sensor->onInitial(sensor->model);
+//				printf("Acelerometro:   (%f, %f, %f)   [m/s2]\r\n",
+//						lecturaActualX, lecturaActualY,
+//						lecturaActualZ);
+				printf("EN_MOVIMIENTO  lecturaActualX: %f ,últimaLecturaX: %f ,intervaloEvaluacionX: %f \n",
+					  lecturaActualX, sensor->ultimaLecturaX, intervaloEvaluacionX);
+				printf("EN_MOVIMIENTO  lecturaActualY: %f ,últimaLecturaY: %f ,intervaloEvaluacionY: %f \n",
+									  lecturaActualY, sensor->ultimaLecturaY, intervaloEvaluacionY);
+				printf("EN_MOVIMIENTO  lecturaActualZ: %f ,últimaLecturaZ: %f ,intervaloEvaluacionZ: %f \n",
+									  lecturaActualZ, sensor->ultimaLecturaZ, intervaloEvaluacionZ);
 
 
 			} else {
 					cambiarEstado(sensor, Quieto_);
 //		            iniciarTiempo(sensor);
 					iniciarContadorDelay(sensor);
-//					sensor->ultimaLecturaX = lecturaActualX;
-//					sensor->ultimaLecturaY = lecturaActualY;
-//					sensor->ultimaLecturaZ = lecturaActualZ;
 
 				}
 				break;
