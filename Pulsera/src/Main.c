@@ -1,13 +1,13 @@
 /*
  * Main.c
  */
+#include "BotonArranque.h"
 #include "sapi.h"
 #include "Pulsera.h"
-#include "Boton.h"
 #include "Sensor.h"
 #include "PulseraRender.h"
 #include "UartConnector.h"
-#define UART_PC        UART_USB
+//#define UART_PC        UART_USB
 //#define UART_BLUETOOTH UART_232
 //MPU9250_address_t addr = MPU9250_ADDRESS_0;
 #define delay_t tickTime = 10
@@ -20,7 +20,7 @@ void pulsera_teMoviste(void *p){
 
 }
 
-int main(void){
+int main (void){
  printf("Inicializando IMU MPU9250...\r\n");
  boardConfig();
  gpioInit(GPIO0, GPIO_OUTPUT);
@@ -29,22 +29,23 @@ int main(void){
  Pulsera p;
  Sensor s;
  PulseraRender pRender;
- Boton b;
+ BotonArranque b;
 
  // UartConnector uart;
 // pulsera_setObservador(&p, (void *)&uart, observerP);
 
- bool_t mpuRead;
- mpuRead = mpu9250Read();
+// bool_t mpuRead;
+// mpuRead = mpu9250Read();
 
-  inicializarDatosBotonDeArranque(&b,TEC1,(void*)&p);
+  printf("INICIALIZANDO BOTONNNNNNNNNNNN");
+  inicializarDatosBotonDeArranque(&b,TEC2,(void*)&p);
   boton_onPress(&b,pulsera_teMoviste);
-//  boton_onRelease(&b,pulsera_enReposo);
+  boton_onRelease(&b,pulsera_enReposo);
 
   PulseraInit(&p,EN_MOVIMIENTO);//DETENIDO
   renderizar(&pRender,&p,GPIO0);
 
-  iniciarSensorMPU9250(&s,&p);
+//  iniciarSensorMPU9250(&s,&p);
 
 //  sensor_onInitial(&s,pulsera_teMoviste);
 //  sensor_onFinish(&s,pulsera_enReposo);
@@ -53,17 +54,18 @@ int main(void){
 
   while(TRUE){
 	 printf("DENTRO DEL WHILE");
-	 mpu9250Read();
+//	 mpu9250Read();
+
 	 actualizarBoton(&b);
 //	 actualizarSensor(&s);
 	 pulseraUpdate(&p);
 	 update(&pRender);
-	 printf( "Acelerometro:   (%f, %f, %f)   [m/s2]\r\n",
-	                    mpu9250GetAccelX_mss(),
-	                    mpu9250GetAccelY_mss(),
-	                    mpu9250GetAccelZ_mss()
-	                  );
-	 delay(1);
+//	 printf( "Acelerometro:   (%f, %f, %f)   [m/s2]\r\n",
+//	                    mpu9250GetAccelX_mss(),
+//	                    mpu9250GetAccelY_mss(),
+//	                    mpu9250GetAccelZ_mss()
+//	                  );
+	 delay(10);
 
 	 //uartConnector_update(&uartConnector);
  }

@@ -3,18 +3,18 @@
  *
  * */
 
-#include "Boton.h"
+#include "BotonArranque.h"
 
 void nullHandlerBoton(void *);
-void initDelayCounter(Boton * b);
-void cambiaEstado(Boton * b, Estado estado);
+void initDelayCounter(BotonArranque * b);
+void cambiaEstado(BotonArranque * b, EstadoB estado);
 
 
-void inicializarDatosBotonDeArranque(Boton * boton , gpioMap_t gpio, void * model){
+void inicializarDatosBotonDeArranque(BotonArranque * boton , gpioMap_t gpio, void * model){
 	boton->gpio = gpio;
 	boton->onPress = nullHandlerBoton;
 	boton->onRelease = nullHandlerBoton;
-	boton->estado = UP_;
+	boton->estadoB = UP_;
 	boton->model = model;
 }
 
@@ -22,19 +22,19 @@ void nullHandlerBoton(void * model){
 
 }
 
-void boton_onPress(Boton * b, evento onPress) {
+void boton_onPress(BotonArranque * b, evento onPress) {
 	b->onPress = onPress;
 }
 
-void boton_onRelease(Boton * b, evento onRelease) {
+void boton_onRelease(BotonArranque * b, evento onRelease) {
 	b->onRelease = onRelease;
 }
 
-void cambiaEstado(Boton * b, Estado estado) {
-	b->estado = estado;
+void cambiaEstado(BotonArranque * b, EstadoB estado) {
+	b->estadoB = estado;
 }
 
-void initDelayCounter(Boton * b) {
+void initDelayCounter(BotonArranque * b) {
 	delayInit(&b->delay, 40);
 }
 //void iniciarTiempoDePulsera(Boton * b){
@@ -42,11 +42,11 @@ void initDelayCounter(Boton * b) {
 //	delayInit(&pulsera->timeInit,20);
 //}
 
-void actualizarBoton(Boton * b) {
+void actualizarBoton(BotonArranque * b) {
 	bool_t leyendo = gpioRead( b->gpio );
 	bool_t presionado = !leyendo;
 
-	switch(b->estado) {
+	switch(b->estadoB) {
 
 		case UP_ : {
 			if(presionado) {
@@ -67,6 +67,7 @@ void actualizarBoton(Boton * b) {
 				if(presionado) {
 					cambiaEstado(b, DOWN_);
 					b->onPress(b->model);
+					printf("BOTONNNNNNNNNNN PRESIONADO");
 		     }
 
 				else {
@@ -86,7 +87,12 @@ void actualizarBoton(Boton * b) {
 				}
 			}
 			break;
-		};
+		}
+		default : {
+					//error
+					cambiaEstado(b, presionado ? DOWN_ : UP_);
+				}
+
 	}
 
 }

@@ -34,7 +34,6 @@ typedef struct Sensor {
 //    int8_t iniciar;
     bool_t iniciar;
     float sensibilidad;
-//    bool_t estadoInicial;
 //    int8_t tickDeUltimaEvaluacion;
 } Sensor;
 
@@ -43,8 +42,5 @@ void iniciarSensorMPU9250(Sensor * sensor ,void * model);
 void sensor_onInitial(Sensor * sensor, evento onInitial);
 void sensor_onFinish(Sensor * sensor,evento onFinish);
 void actualizarSensor(Sensor * sensor);
-
-
-
 
 #endif /* PROGRAMS_PULSERA_INC_SENSOR_H_ */
