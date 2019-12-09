@@ -9,10 +9,6 @@
 #include "sapi.h"
 #include "Pulsera1.h"
 
-//typedef enum {
-//	Brusco, Detenido
-//}EstadoMovimiento;
-
 typedef enum {
 	Levantado1_,Quieto1_,Movimiento1_
 }SensorEstado;
@@ -25,16 +21,13 @@ typedef struct Sensor1 {
 	void * model;
 	SensorEstado state;
 	delay_t delay;
-	delay_t timeInit;
-	delay_t tiempoComenzado;
 	MPU9250_address_t addr;
     float ultimaLecturaX;
     float ultimaLecturaY;
     float ultimaLecturaZ;
-//    int8_t iniciar;
     bool_t iniciar;
     float sensibilidad;
-//    int8_t tickDeUltimaEvaluacion;
+
 } Sensor1;
 
 

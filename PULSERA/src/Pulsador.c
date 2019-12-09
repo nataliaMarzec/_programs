@@ -36,10 +36,6 @@ void pulsador_onRelease(Pulsador * pul, evento onRelease) {
 void initDelayCounter(Pulsador * pul) {
 	delayInit(&pul->delay, 40);
 }
-//void iniciarTiempoDePulsera(Boton * b){
-//	Pulsera * pulsera = (Pulsera *)b->model;
-//	delayInit(&pulsera->timeInit,20);
-//}
 
 void actualizarPulsador(Pulsador * pul) {
 	bool_t leyendo = gpioRead( pul->gpio );

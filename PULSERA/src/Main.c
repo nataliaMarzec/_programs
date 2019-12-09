@@ -4,6 +4,7 @@
 #include "PulseraRender1.h"
 #include "Sensor1.h"
 #include "sapi.h"
+#define TICK_READ_t time =tickRead();
 
 MPU9250_address_t addr = MPU9250_ADDRESS_0; // If MPU9250 AD0 pin is connected to GND
 
@@ -15,6 +16,7 @@ void pulsera_teMoviste(void *p){
 }
 
 int main(void){
+
    boardConfig();
    gpioInit(GPIO0, GPIO_OUTPUT);// @suppress("Symbol is not resolved")
 
@@ -34,7 +36,7 @@ int main(void){
    renderizar(&pRender,&p,GPIO0); // @suppress("Symbol is not resolved")
 
    printf("Inicializando IMU MPU9250...\r\n" );
-   int8_t status;
+   int8_t status; // @suppress("Type cannot be resolved")
    status = mpu9250Init( addr );
 
    printf("INICIALIAZANDO SENSOR");
@@ -59,17 +61,14 @@ int main(void){
    while(TRUE){
 
       mpu9250Read();
-//		printf( "Acelerometro:   (%f, %f, %f)   [m/s2]\r\n",
-//              mpu9250GetAccelX_mss(),
-//              mpu9250GetAccelY_mss(),
-//              mpu9250GetAccelZ_mss()
-//            );
+
 		actualizarPulsador(&pul);
 		actualizarSensor(&s);
+		printf("ESTOY EN EL SENSOR WHILE \n");
 		pulseraUpdate(&p);
 	    update(&pRender);
 
-      delay(1000);
+      delay(1);
    }
 
 

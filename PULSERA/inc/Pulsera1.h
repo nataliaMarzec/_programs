@@ -18,7 +18,6 @@ typedef enum Estados{
 
 
 typedef struct Pulsera1{
-//	unsigned char valor;-> estadoPuLsera
 	void * observerP;
     funcionp funcionp;
 	Estados estado;
